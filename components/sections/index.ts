@@ -1,0 +1,14 @@
+// NOTE: Barrel exports for landing page section components.
+export { default as HeroSection } from './HeroSection'
+export { default as ProblemSection } from './ProblemSection'
+export { default as PassiveActiveSection } from './PassiveActiveSection'
+export { default as HowItWorksSection } from './HowItWorksSection'
+export { default as FeatureBreakdownSection } from './FeatureBreakdownSection'
+export { default as RetentionDashboardSection } from './RetentionDashboardSection'
+export { default as BeforeAfterSection } from './BeforeAfterSection'
+export { default as SocialProofSection } from './SocialProofSection'
+export { default as ComparisonTableSection } from './ComparisonTableSection'
+export { default as WhoItsForSection } from './WhoItsForSection'
+export { default as FaqSection } from './FaqSection'
+export { default as FinalCtaSection } from './FinalCtaSection'
+

@@ -1,0 +1,45 @@
+// NOTE: Reusable card component primitives for consistent layout blocks.
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+// NOTE: `Card` encapsulates reusable logic for this module.
+function Card({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card"
+      className={cn("bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm", className)}
+      {...props}
+    />
+  )
+}
+
+// NOTE: `CardHeader` encapsulates reusable logic for this module.
+function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn("grid auto-rows-min items-start gap-1.5 px-6 pt-8", className)}
+      {...props}
+    />
+  )
+}
+
+// NOTE: `CardTitle` encapsulates reusable logic for this module.
+function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
+  return (
+    <h3
+      data-slot="card-title"
+      className={cn("leading-none font-semibold", className)}
+      {...props}
+    />
+  )
+}
+
+// NOTE: `CardContent` encapsulates reusable logic for this module.
+function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="card-content" className={cn("px-6 pb-6", className)} {...props} />
+}
+
+export { Card, CardContent, CardHeader, CardTitle }
+
