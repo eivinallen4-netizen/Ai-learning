@@ -27,4 +27,15 @@ export default defineSchema({
     correctAnswer: v.string(),
     question: v.string(),
   }),
+  pipelineState: defineTable({
+    sessionId: v.string(),
+    userId: v.string(),
+    status: v.string(),
+    courseId: v.optional(v.string()),
+    subject: v.optional(v.string()),
+    error: v.optional(v.string()),
+    updatedAt: v.float64(),
+  })
+    .index("by_sessionId", ["sessionId"])
+    .index("by_userId", ["userId"]),
 });

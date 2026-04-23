@@ -1,10 +1,6 @@
-// NOTE: Landing page section that breaks down core features.
 import { Brain, ListChecks, MessageCircle, Sparkles, Target, TrendingUp } from 'lucide-react'
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Scribble from './Scribble'
 
-// NOTE: `features` stores a constant/reference used in this scope.
 const features = [
   { title: 'Instant quiz generation', body: 'Questions are created directly from your notes and docs, so you can start practicing in seconds.', icon: Sparkles },
   { title: 'Weak-topic tracking', body: 'Every session highlights your lowest-performing concepts so your effort goes where it matters most.', icon: Target },
@@ -14,33 +10,35 @@ const features = [
   { title: 'Source-aware questions', body: 'Prompts stay grounded in your own material, which makes recall more relevant and practical.', icon: MessageCircle },
 ]
 
-// NOTE: `FeatureBreakdownSection` encapsulates reusable logic for this module.
 export default function FeatureBreakdownSection() {
   return (
-    <section id='features' className='relative overflow-hidden bg-muted/30 px-6 py-16'>
-      <Scribble variant='plant' className='absolute -right-8 bottom-0 hidden md:block' />
-      <div className='mx-auto w-full max-w-6xl'>
-        <h2 className='text-3xl font-semibold'>Features That Deliver Real Benefits</h2>
-        <p className='mt-3 max-w-2xl text-muted-foreground'>
-          Designed for college students and workers who need better results without adding more hours to their day.
-        </p>
-        <div className='mt-8 grid gap-4 md:grid-cols-3'>
+    <section id='features' className='relative section-container overflow-hidden bg-gradient-to-b from-white dark:from-slate-950 via-gray-50 dark:via-slate-900/50 to-white dark:to-slate-950'>
+      <Scribble variant='plant' className='absolute -right-8 bottom-0 hidden md:block opacity-50' />
+      <div className='mx-auto w-full max-w-6xl relative z-10'>
+        {/* Header */}
+        <div className='section-header'>
+          <h2 className='section-title'>Features That Deliver Real Benefits</h2>
+          <p className='section-subtitle'>
+            Designed for college students and workers who need better results without adding more hours to their day.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className='grid gap-6 md:grid-cols-3'>
           {features.map((feature) => {
-// NOTE: `Icon` stores a constant/reference used in this scope.
             const Icon = feature.icon
             return (
-              <Card key={feature.title}>
-                <CardHeader>
-                  <Icon className='size-5 text-primary' />
-                  <CardTitle>{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className='text-sm text-muted-foreground'>{feature.body}</p>
-                  <div className='rounded-md border bg-background p-3 text-xs text-muted-foreground mt-2'>
-                    Mini UI screenshot area
+              <div key={feature.title} className='card-container group'>
+                <div className='flex items-start gap-4'>
+                  <div className='p-3 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-colors flex-shrink-0'>
+                    <Icon className='w-5 h-5 text-blue-600 dark:text-blue-400' />
                   </div>
-                </CardContent>
-              </Card>
+                  <div className='flex-1'>
+                    <h3 className='font-bold text-gray-900 dark:text-white mb-2'>{feature.title}</h3>
+                    <p className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed'>{feature.body}</p>
+                  </div>
+                </div>
+              </div>
             )
           })}
         </div>

@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as pipeline from "../pipeline.js";
 import type * as prompts from "../prompts.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  pipeline: typeof pipeline;
   prompts: typeof prompts;
 }>;
 

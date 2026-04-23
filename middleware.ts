@@ -2,7 +2,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 // NOTE: `isProtectedRoute` tracks a boolean condition used in rendering/logic.
-const isProtectedRoute = createRouteMatcher(['/learn-board(.*)', '/dashboard(.*)']);
+const isProtectedRoute = createRouteMatcher(['/learn-board(.*)', '/pretest(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {

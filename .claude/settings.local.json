@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(cd C:\\\\\\\\Users\\\\\\\\Theo\\\\\\\\Desktop\\\\\\\\reacr-practive\\\\\\\\Ai-learning)",
+      "Bash(npx eslint *)",
+      "Bash(npx jq *)",
+      "Bash(npm install *)",
+      "Bash(timeout 30 npx convex dev)",
+      "Bash(npx convex *)"
+    ]
+  }
+}

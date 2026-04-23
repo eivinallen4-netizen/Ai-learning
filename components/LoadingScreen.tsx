@@ -3,6 +3,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 import { Loader2 } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 
@@ -89,10 +90,20 @@ export function LoadingScreen({
 
   return (
     <div className={cn('fixed inset-0 z-50 grid place-items-center bg-background/80 backdrop-blur-sm', className)}>
-      <div className='flex items-center gap-3 rounded-xl border bg-card px-5 py-4 shadow-sm'>
-        <Loader2 className='size-5 animate-spin text-primary' />
-        <p className='text-sm font-medium'>{message}</p>
-      </div>
+      <motion.div
+        animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        className='flex items-center gap-4 rounded-2xl border border-primary/30 bg-card px-8 py-6 shadow-xl bg-gradient-to-r from-primary/5 to-transparent'
+      >
+        <div className='relative'>
+          <div className='absolute inset-0 bg-primary/20 rounded-full animate-pulse blur-lg' />
+          <Loader2 className='size-6 animate-spin text-primary relative' />
+        </div>
+        <div className='flex flex-col gap-1'>
+          <p className='text-base font-semibold text-white'>{message}</p>
+          <p className='text-xs text-slate-400'>Processing your request...</p>
+        </div>
+      </motion.div>
     </div>
   )
 }

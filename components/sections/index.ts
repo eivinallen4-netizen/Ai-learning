@@ -1,5 +1,7 @@
 // NOTE: Barrel exports for landing page section components.
 export { default as HeroSection } from './HeroSection'
+export { default as ImpactSection } from './ImpactSection'
+export { default as FeaturesShowcaseSection } from './FeaturesShowcaseSection'
 export { default as ProblemSection } from './ProblemSection'
 export { default as PassiveActiveSection } from './PassiveActiveSection'
 export { default as HowItWorksSection } from './HowItWorksSection'

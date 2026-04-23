@@ -1,10 +1,6 @@
-// NOTE: Section describing user pain points this app solves.
 import { BookOpen, Clock3, FileText, TriangleAlert } from 'lucide-react'
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Scribble from './Scribble'
 
-// NOTE: `painPoints` stores a constant/reference used in this scope.
 const painPoints = [
   { title: 'Rereading loop', body: 'You put in the time, but the information does not stick when you need it.', icon: BookOpen },
   { title: 'No feedback', body: 'It is hard to know what you actually understand until tests or deadlines hit.', icon: TriangleAlert },
@@ -12,30 +8,31 @@ const painPoints = [
   { title: 'Scattered sources', body: 'Notes, slides, and docs are spread across tools without one practice flow.', icon: FileText },
 ]
 
-// NOTE: `ProblemSection` encapsulates reusable logic for this module.
 export default function ProblemSection() {
   return (
-    <section id='problem' className='relative overflow-hidden px-6 py-16'>
-      <Scribble variant='plant' className='absolute -left-8 top-10 hidden md:block' />
-      <div className='mx-auto w-full max-w-6xl'>
-        <h2 className='text-3xl font-semibold'>The Problem Learn More LGO Solves</h2>
-        <p className='mt-3 max-w-2xl text-muted-foreground'>
-          Most people are not short on effort. They are short on an effective system that turns study time into real retention.
-        </p>
-        <div className='mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+    <section id='problem' className='relative section-container overflow-hidden'>
+      <Scribble variant='plant' className='absolute -left-8 top-10 hidden md:block opacity-50' />
+      <div className='mx-auto w-full max-w-6xl relative z-10'>
+        {/* Header */}
+        <div className='section-header mb-16'>
+          <h2 className='section-title'>The Problem We Solve</h2>
+          <p className='section-subtitle'>
+            Most people are not short on effort. They are short on an effective system that turns study time into real retention.
+          </p>
+        </div>
+
+        {/* Pain Points Grid */}
+        <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
           {painPoints.map((item) => {
-// NOTE: `Icon` stores a constant/reference used in this scope.
             const Icon = item.icon
             return (
-              <Card key={item.title}>
-                <CardHeader>
-                  <Icon className='size-5 text-primary' />
-                  <CardTitle>{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className='text-sm text-muted-foreground'>{item.body}</p>
-                </CardContent>
-              </Card>
+              <div key={item.title} className='card-container group'>
+                <div className='mb-4 p-3 w-fit rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-colors duration-300'>
+                  <Icon className='w-5 h-5 text-blue-600 dark:text-blue-400' />
+                </div>
+                <h3 className='font-bold text-gray-900 dark:text-white mb-2'>{item.title}</h3>
+                <p className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed'>{item.body}</p>
+              </div>
             )
           })}
         </div>

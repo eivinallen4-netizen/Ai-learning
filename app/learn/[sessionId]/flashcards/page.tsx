@@ -38,11 +38,11 @@ export default async function FlashcardsPage({ params }: FlashcardsPageProps) {
   )
 }
 
-function getCardsForSession(sessionId: string) {
+function getCardsForSession(_sessionId: string) { // eslint-disable-line @typescript-eslint/no-unused-vars
   // Placeholder logic to fetch or generate flashcards based on the session ID.
   // In a real implementation, this might involve fetching from an API or database.
 
-  
+
   return [
     { question: 'What is the capital of France?', answer: 'Paris' },
     { question: 'What is 2 + 2?', answer: '4' },
