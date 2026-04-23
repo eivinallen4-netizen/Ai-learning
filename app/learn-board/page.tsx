@@ -1,5 +1,4 @@
 'use client'
-// NOTE: Interactive Learn Board experience for running exercises/flashcards.
 
 import * as React from 'react'
 import Link from 'next/link'
@@ -13,29 +12,19 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 
-// Fixed number of tiles shown in the learning options grid.
-// NOTE: `CARD_COUNT` stores a fixed constant/reference used by this module.
 const CARD_COUNT = 16
 
-// Visual state for each tile while actions run.
 type CardStatus = 'idle' | 'loading' | 'ready' | 'error'
 
-// Utility to keep percentage values in a safe range.
-// NOTE: `clamp` is a helper function used to transform values.
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value))
 }
 
-// Maps a 0-100 score to a red->green hue for the progress UI.
-// NOTE: `scoreColor` is a helper function used to transform values.
 function scoreColor(percent: number): string {
-// NOTE: `hue` stores a constant/reference used in this scope.
   const hue = Math.round((percent / 100) * 120)
   return `hsl(${hue} 75% 42%)`
 }
 
-// Builds the final prompt text sent to the study-generation pipeline.
-// NOTE: `buildFinalStudyPrompt` builds and returns derived output for later use.
 function buildFinalStudyPrompt(args: {
   resourceName: string
   mode: 'exercise' | 'flashcard'
@@ -53,8 +42,6 @@ function buildFinalStudyPrompt(args: {
   ].join('\n')
 }
 
-// User-facing label for each card index.
-// NOTE: `cardLabel` encapsulates reusable logic for this module.
 function cardLabel(index: number): string {
   if (index === 0) return 'Add Exercise'
   if (index === 1) return 'Flash Card'
@@ -118,17 +105,12 @@ function classNameForCard(showBaseContent: boolean): string {
   return 'group relative flex min-h-28 items-center justify-center rounded-xl border border-transparent bg-transparent p-5 shadow-none transition-colors hover:border-muted-foreground/40 hover:bg-muted/20'
 }
 
-// NOTE: `LearnBoardPage` encapsulates reusable logic for this module.
 export default function LearnBoardPage() {
-  // Clerk auth status for conditional access/CTA behavior.
   const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
 
-  // Resource payload that was saved from the home page input.
   const [payload, setPayload] = React.useState<LearnBoardPayload | null>(null)
-  // Per-card status used for tiny status text in the grid.
   const [cardStatus, setCardStatus] = React.useState<CardStatus[]>(() => Array(CARD_COUNT).fill('idle'))
-  // Top-level transient status message for action feedback.
   const [statusMessage, setStatusMessage] = React.useState('')
 
   const updateCardStatus = React.useCallback((cardIndex: number, status: CardStatus) => {
@@ -139,29 +121,21 @@ export default function LearnBoardPage() {
     })
   }, [])
 
-  // On first render, read the last submitted resource from sessionStorage.
   React.useEffect(() => {
-// NOTE: `found` stores a constant/reference used in this scope.
     const found = readLearnBoardPayload()
     if (found) setPayload(found)
   }, [])
 
-  // Handles clicks for the two active cards (Exercise + Flash Card).
-// NOTE: `handlePrimaryCardClick` stores a constant/reference used in this scope.
   const handlePrimaryCardClick = React.useCallback(
     async (cardIndex: number) => {
-      // Only signed-in users can run actions, and only first 2 cards are active.
       if (!payload || !isSignedIn || cardIndex > 1) return
 
-      // Final prompt includes source name, mode, and the full source text.
-// NOTE: `rawText` stores a constant/reference used in this scope.
       const rawText = buildFinalStudyPrompt({
         resourceName: payload.resourceName,
         mode: cardIndex === 0 ? 'exercise' : 'flashcard',
         sourceText: payload.sourceText,
       })
 
-      // Mark clicked card as loading in UI.
       updateCardStatus(cardIndex, 'loading')
       setStatusMessage(`${cardLabel(cardIndex)} is running...`)
 
@@ -200,7 +174,6 @@ export default function LearnBoardPage() {
           return
         }
 
-        // Current implementation is mocked; this is where backend call hooks in.
         const serverLogBody = {
           subject: payload.resourceName.slice(0, 80) || 'Uploaded Resource',
           title: cardLabel(cardIndex),
@@ -217,13 +190,9 @@ export default function LearnBoardPage() {
             meta: serverLogBody,
           }),
         })
-        // Small delay to simulate async processing.
-        await new Promise((resolve) => setTimeout(resolve, 700))
-        // Mark card as completed.
         updateCardStatus(cardIndex, 'ready')
         setStatusMessage(`${cardLabel(cardIndex)} finished successfully.`)
       } catch {
-        // Mark card as failed if any exception occurs.
         updateCardStatus(cardIndex, 'error')
         setStatusMessage(`${cardLabel(cardIndex)} failed. Try again.`)
       }
@@ -263,7 +232,6 @@ export default function LearnBoardPage() {
     [cardStatus, handleCardClick, isSignedIn]
   )
 
-  // Guard route: signed-out users see a login prompt instead of the board.
   if (isLoaded && !isSignedIn) {
     return (
       <main className='relative min-h-screen overflow-hidden bg-muted/40 p-4 md:p-6'>
@@ -280,7 +248,6 @@ export default function LearnBoardPage() {
     )
   }
 
-  // Guard route: users must submit a resource before opening Learn Board.
   if (!payload) {
     return (
       <main className='relative min-h-screen overflow-hidden bg-muted/40 p-4 md:p-6'>
@@ -316,11 +283,9 @@ export default function LearnBoardPage() {
           <Button className='w-full justify-start gap-2 rounded-full'>
             <Plus className='size-5' /> Add Another Course
           </Button>
-          {/* Quick context display so user knows which resource is loaded. */}
           <div className='mt-4 rounded-xl border bg-muted/20 p-3 text-xs text-muted-foreground'>
             Resource: {payload.resourceName}
           </div>
-          {/* Secondary auth CTA if session changes while on page. */}
           {!isSignedIn ? (
             <div className='mt-3 rounded-xl border bg-background p-3'>
               <p className='text-sm font-medium'>Login to run actions</p>
@@ -335,8 +300,6 @@ export default function LearnBoardPage() {
 
         <section className='flex h-full flex-1 flex-col overflow-hidden rounded-2xl border bg-background p-4 md:p-6'>
           <h2 className='ml-1 text-3xl font-semibold md:text-4xl'>Hi Theo</h2>
-
-          {/* Pretest progress card (currently static demo value). */}
           <div className='mx-1 mt-4 rounded-xl border bg-muted/20 p-3'>
             <div className='flex items-center gap-2 text-sm'>
               <span className='size-2.5 rounded-full' style={{ backgroundColor: pretestColor }} />
@@ -351,13 +314,14 @@ export default function LearnBoardPage() {
             <h3 className='text-lg font-medium'>Learning Options</h3>
             <Separator className='mt-2' />
           </div>
+          {statusMessage ? (
+            <p className='mx-1 mt-3 text-xs text-muted-foreground'>{statusMessage}</p>
+          ) : null}
 
           {/* High-level action status feedback for the last run card. */}
           {statusMessage ? (
             <p className='mx-1 mt-3 text-xs text-muted-foreground'>{statusMessage}</p>
           ) : null}
-
-          {/* Card grid: first 2 are active, remaining cards are placeholders/locked. */}
           <div className='mt-5 grid flex-1 grid-cols-2 gap-3 overflow-y-auto p-1 pr-2 sm:grid-cols-3 lg:grid-cols-4'>
             {Array.from({ length: CARD_COUNT }).map(renderLearningCard)}
           </div>
